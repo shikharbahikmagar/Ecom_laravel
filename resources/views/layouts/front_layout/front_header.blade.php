@@ -10,7 +10,7 @@ use App\Section;
 			<div class="span6">Welcome!<strong> User</strong></div>
 			<div class="span6">
 				<div class="pull-right">
-					<a href="product_summary.html"><span class="btn btn-mini btn-primary"><i class="icon-shopping-cart icon-white"></i> [ 3 ] Items in your cart </span> </a>
+					<a href="{{ url('/cart') }}"><span class="btn btn-mini btn-primary"><i class="icon-shopping-cart icon-white"></i><span class="totalCartItems">[ {{ totalCartItems() }} ]</span>  Items in your cart </span> </a>
 				</div>
 			</div>
 		</div>
@@ -27,7 +27,7 @@ use App\Section;
 		        <a class="brand" href="{{ url('/') }}">Shikhar</a>
 		        <div class="nav-collapse">
 		          <ul class="nav">
-		            <li class="active"><a href="#">Home</a></li>
+		            <li class="active"><a href="{{ url('/') }}">Home</a></li>
 					@foreach($sections as $section)
 					@if(count($section['categories'])>0)
 		            <li class="dropdown">
@@ -52,9 +52,14 @@ use App\Section;
 		            <input type="text" class="search-query span2" placeholder="Search"/>
 		          </form>
 		          <ul class="nav pull-right">
-		            <li><a href="#">Contact</a></li>
+		            <li><a href="{{ url('/orders') }}">Orders</a></li>
 		            <li class="divider-vertical"></li>
-		            <li><a href="#">Login</a></li>
+					@if(Auth::check())
+		            <li><a href="{{ url('/account') }}">My Account</a></li>
+					<li><a href="{{ url('/logout') }}">Logout</a></li>
+					@else
+					<li><a href="{{ url('/login-register') }}">Login / Register</a></li>
+					@endif
 		          </ul>
 		        </div><!-- /.nav-collapse -->
 		      </div>

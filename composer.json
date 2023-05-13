@@ -9,20 +9,23 @@
     "license": "MIT",
     "require": {
         "php": "^7.2.5|^8.0",
+        "dompdf/dompdf": "^2.0",
         "fideloper/proxy": "^4.4",
         "fruitcake/laravel-cors": "^1.0",
-        "guzzlehttp/guzzle": "^6.3",
+        "guzzlehttp/guzzle": "^7.0.1",
         "intervention/image": "^2.7",
-        "laravel/framework": "^7.0",
-        "laravel/tinker": "^2.5"
+        "laravel/framework": "^8.0",
+        "laravel/helpers": "^1.6",
+        "laravel/tinker": "^2.5",
+        "milon/barcode": "^10.0"
     },
     "require-dev": {
-        "facade/ignition": "^2.0",
+        "facade/ignition": "^2.3.6",
         "fakerphp/faker": "^1.9.1",
-        "laravel/ui": "^2.0",
+        "laravel/ui": "^3.0",
         "mockery/mockery": "^1.3.1",
-        "nunomaduro/collision": "^4.1",
-        "phpunit/phpunit": "^8.5.8|^9.3.3"
+        "nunomaduro/collision": "^5.0",
+        "phpunit/phpunit": "^9.0"
     },
     "config": {
         "optimize-autoloader": true,
@@ -39,8 +42,11 @@
             "App\\": "app/"
         },
         "classmap": [
-            "database/seeds",
-            "database/factories"
+            "database/factories/",
+            "database/seeders/"
+        ],
+        "files": [
+            "app/Helpers/Helper.php"
         ]
     },
     "autoload-dev": {

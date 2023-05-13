@@ -98,7 +98,7 @@
         </div>
         </form>
 
-        <form action="{{ url('admin/edit-product-attributes/'.$productdata['id']) }}" id="editForm" name="editForm" method="post"
+        <form action="{{ url('admin/add-images/'.$productdata['id']) }}" id="editForm" name="editForm" method="post"
         enctype="multipart/form-data">@csrf
           <div class="card card-default">
             <div class="card-header">

@@ -477,5 +477,83 @@ $(document).ready(function()
                 }
               });
     
-           });
+        });
+            //updateCouponStatus
+            $(document).on("click", ".updateCouponStatus", function()
+            {
+                var status = $(this).children("i").attr("status");
+                var coupon_id = $(this).attr("coupon_id");
+                $.ajax({
+                    type: 'post',
+                    url : '/admin/update-coupon-status',
+                    data : {status:status, coupon_id:coupon_id},
+                    success:function(resp)
+                    {
+                        if(resp['status']==0)
+                        {
+                            $("#coupon-"+coupon_id).html(" <i class='fas fa-toggle-off' aria-hidden='true' status='In-Active'></i>");
+                        }
+                        else if(resp['status']==1)
+                        {
+                            $("#coupon-"+coupon_id).html("  <i class='fas fa-toggle-on' aria-hidden='true' status='In-Active'></i>");
+                        }
+                    }, error:function()
+                    {
+                        alert("error");
+                    }
+                });
+            });
+        //delete coupon
+        $(document).on("click", ".confirmDelete", function(){
+        var record = $(this).attr("record");
+        var recordId = $(this).attr("recordId");
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+            if (result.value) {
+                window.location.href="/admin/delete-"+record+"/"+recordId; 
+
+            }
+            });
+
+        });
+        //show/hide coupon field for automaic/manual
+        $("#automaticCoupon").click(function(){
+            $("#couponField").hide();
+        });
+
+        $("#manualCoupon").click(function(){
+            $("#couponField").show();
+        });
+        //Datemask dd/mm/yyyy
+        $('#datemask').inputmask('dd/mm/yyyy', { 'placeholder': 'dd/mm/yyyy' })
+        //Datemask2 mm/dd/yyyy
+        $('#datemask2').inputmask('mm/dd/yyyy', { 'placeholder': 'mm/dd/yyyy' })
+        //Money Euro
+        $('[data-mask]').inputmask()
+
+        //for courier name and tracking number
+        $("#courier_name").hide();
+        $("#tracking_number").hide();
+
+        $("#order_status").on("change", function(){
+            // alert(this.value);
+            if(this.value=="Shipped")
+            {
+                $("#courier_name").show();
+                $("#tracking_number").show();
+            }
+            else
+            {
+                $("#courier_name").hide();
+                $("#tracking_number").hide();
+            }
+        });
+
 });

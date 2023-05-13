@@ -60,7 +60,7 @@ class BannersController extends Controller
             $title = "Edit Banner";
             $bannerData = Banner::where('id', $id)->get()->first();
             $banner = Banner::find($id);
-            $message = "Banner Added Successfully";
+            $message = "Banner updated Successfully";
             $sub_btn_name = "Update";
         }
 

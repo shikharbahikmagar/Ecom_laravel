@@ -11,10 +11,10 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+use App\Category;
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
@@ -76,11 +76,87 @@ Route::prefix('/admin')->namespace('Admin')->group(function(){
         Route::match(['get', 'post'], 'add-edit-banners/{id?}', 'BannersController@addEditBanner');
         Route::get('delete-banner-image/{id}', 'BannersController@deleteBannerImage');
 
+        //coupons
+        Route::get('/coupons', 'CouponsController@coupons');
+        Route::post('/update-coupon-status', 'CouponsController@updateCouponStatus');
+        Route::get('delete-coupon/{id}', 'CouponsController@deleteCoupon');
+        Route::match(['get', 'post'], 'add-edit-coupons/{id?}', 'CouponsController@addEditCoupon');
+        
+        //orders
+        Route::get('/orders', 'OrdersController@orders');
+        //order details amdin
+        Route::get('/orders/{id}','OrdersController@orderDetails'); 
+        Route::post('/update-order-status', 'OrdersController@updateOrderStatus');
+        //view order invoice
+        Route::get('/view-order-invoice/{id}', 'OrdersController@viewOrderInvoice');
+        //print pdf file
+        Route::get('/print-pdf-invoice/{id}', 'OrdersController@printPdfInvoice');
     });
 
 });
 
 Route::namespace('Front')->group(function(){
+    //home page route
     Route::get('/', 'IndexController@index');
-    Route::get('/{url}', 'ProductsController@listing');
+    //get category urls
+    $catUrls = Category::select('url')->where('status', 1)->get()->pluck('url')->toArray();
+    // echo "<pre>"; print_r($catUrls); 
+    foreach($catUrls as $url)
+    {
+        Route::get('/'.$url, 'ProductsController@listing');
+        // echo "<pre>"; print_r($url); 
+    }
+    //product details
+    Route::get('/product/{id}', 'ProductsController@details');
+    //getting price according to size
+    Route::post('/getting-product-price', 'ProductsController@getProductPrice');
+    //add to cart
+    Route::post('add-to-cart', 'ProductsController@addtoCart');
+    //shopping cart rout
+    Route::get('/cart', 'ProductsController@cart');
+    //update cart item quantity
+    Route::post('/update-cart-item-qty', 'ProductsController@updateCartItem');
+    //delete cart item
+    Route::post('/delete-cart-item', 'ProductsController@deleteCartItem');
+    //login/register
+    Route::get('/login-register', ['as'=>'login', 'uses'=>'UsersController@loginRegister']);
+    //check user email existance
+    Route::match(['get', 'post'], '/check-email', 'UsersController@checkEmail');
+    //login
+    Route::post('/login', 'UsersController@userLogin');
+    //register
+    Route::post('/register', 'UsersController@userRegister');
+    //logout
+    Route::get('/logout', 'UsersController@logoutUser');
+    //confirm email
+    Route::match(['get', 'post'], '/confirm/{code}', 'UsersController@confirmAccount');
+    //user forgot password
+    Route::match(['get', 'post'], '/forgot-password', 'UsersController@forgotPassword');
+    //middleware auth
+    Route::group(['middleware'=>['auth']], function(){
+        
+        //user account 
+        Route::match(['get', 'post'], '/account', 'UsersController@account');
+        //orders
+        Route::get('/orders', 'OrdersController@orders');
+        //view order details
+        Route::get('/order-details/{id?}', 'OrdersController@orderDetails');
+        //check current password
+        Route::post('/check-user-pwd', 'UsersController@checkeUserPwd');
+        //update user password
+        Route::post('/update-user-pwd', 'UsersController@updateUserPwd');
+        //apply coupon\
+        Route::post('/apply-coupon', 'ProductsController@applyCoupon');
+        //checkout
+        Route::match(['get', 'post'], '/checkout', 'ProductsController@checkout');
+        //add edit delivery address by user
+        Route::match(['get', 'post'], '/add-edit-delivery-address/{id?}', 'ProductsController@addEditDeliveryAddress');
+        //delete delivery address
+        Route::get('/delete-delivery-address/{id?}', 'ProductsController@deleteDeliveryAddress');
+        //thanks page
+        Route::get('/thanks', 'ProductsController@thanks');
+        
+    });
+
+
 });

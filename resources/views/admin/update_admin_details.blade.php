@@ -50,7 +50,7 @@
                   </button>
                   </div>
                   @endif
-                                @if ($errors->any())
+                  @if ($errors->any())
                     <div class="alert alert-danger">
                         <ul>
                             @foreach ($errors->all() as $error)
@@ -58,7 +58,7 @@
                             @endforeach
                         </ul>
                     </div>
-                @endif
+                  @endif
               <!-- /.card-header -->
               <!-- form start -->
               <form role="form" action="{{ url('/admin/update-admin-details') }}" enctype="multipart/form-data" method="post">@csrf

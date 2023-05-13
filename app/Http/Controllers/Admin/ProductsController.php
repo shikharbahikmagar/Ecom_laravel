@@ -185,16 +185,18 @@ class ProductsController extends Controller
             Session::flash('success_message', $message);
             return redirect('admin/products');
         }
+        //product filter
+        $productFilters = Product::productFilters();
+        //  echo "<pre>"; print_r($productFilters); die;
+        $fabricArray = $productFilters['fabricArray'];
+        $patternArray = $productFilters['patternArray'];
+        $sleeveArray = $productFilters['sleeveArray'];
+        $fitArray = $productFilters['fitArray'];
+        $occasionArray = $productFilters['occasionArray'];
 
-
-        $fabricArray =  array('Cotton', 'Polyester', 'Wool'); 
-        $patternArray =  array('Checked', 'Plain','Printed', 'Self', 'Solid');
-        $sleeveArray =  array('Full Sleeve', 'Half Sleeve', 'Short Sleeve', 'Sleeveless');
-        $fitArray =  array('Regular', 'Slim');
-        $occasionArray =  array('Casual', 'Formal');
-
+        //sections with categories and sub categories
         $categories = Section::with('categories')->get();
-        //   $categories = json_decode(json_encode($categories));
+        // $categories = json_decode(json_encode($categories));
         // echo "<pre>"; print_r($categories); die;
         $brands = Brand::where('status', 1)->get();
         // dd($brands);
@@ -349,6 +351,7 @@ class ProductsController extends Controller
         return redirect()->back();
     }
 
+    //add images
     public function addImages(Request $request, $id)
     {
         if($request->isMethod('post'))
