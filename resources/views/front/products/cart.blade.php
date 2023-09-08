@@ -1,4 +1,5 @@
 <?php use App\Cart;
+Session::forget('couponAmount');
  ?>
 @extends('layouts.front_layout.front_layout')
 @section('content')

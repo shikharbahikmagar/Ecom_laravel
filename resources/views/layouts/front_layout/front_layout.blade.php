@@ -3,7 +3,7 @@
 <head>
 	
 	<meta charset="utf-8">
-	<title>Stack Developers online Shopping cart</title>
+	<title>Mero Kapada Online Shopping</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="description" content="">
 	<meta name="author" content="">
@@ -49,6 +49,7 @@
 @include('layouts.front_layout.front_footer')
 <!-- Placed at the end of the document so the pages load faster ============================================= -->
 <script src="{{ url('js/front_js/jquery.js') }}" type="text/javascript"></script>
+<script src="https://khalti.s3.ap-south-1.amazonaws.com/KPG/dist/2020.12.17.0.0.0/khalti-checkout.iffe.js"></script>
 <script src="{{ url('js/front_js/front.min.js') }}" type="text/javascript"></script>
 <script src="{{ url('js/front_js/google-code-prettify/prettify.js') }}"></script>
 <script src="{{ url('js/front_js/front.js') }}"></script>

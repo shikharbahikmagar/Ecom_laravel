@@ -18,4 +18,6 @@
 <?php
 Session::forget('order_id');
 Session::forget('grand_total');
+Session::forget('couponAmount');
+Session::forget('couponCode');
 ?>

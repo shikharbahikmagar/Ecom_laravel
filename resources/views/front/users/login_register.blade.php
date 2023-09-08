@@ -73,7 +73,7 @@
                     <div class="control-group">
                         <div class="controls">
                             <button type="submit" class="btn">Sign in</button> <a
-                                href="forgetpass.html">Forget password?</a>
+                                href="{{ url('/forgot-password') }}">Forget password?</a>
                         </div>
                     </div>
                 </form>

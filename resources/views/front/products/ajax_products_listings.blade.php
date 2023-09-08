@@ -43,8 +43,8 @@ use App\Product;
 									</p>
 									<?php $discounted_price = Product::getDiscountedPrice($product['id']); ?>
 									
-									<h4 style="text-align:center"><a class="btn" href="product_details.html"> <i class="icon-zoom-in"></i></a> 
-									<a class="btn" href="add-to-cart">Add to <i class="icon-shopping-cart"></i></a>
+									<h4 style="text-align:center"><a class="btn" href="{{ url('/product/'.$product['id']) }}"> <i class="icon-zoom-in"></i></a> 
+									<a class="btn" href="{{ url('/product/'.$product['id']) }}">Add to <i class="icon-shopping-cart"></i></a>
 									 <a class="btn btn-primary" href="#">
 									 @if($discounted_price>0)
 									 <del>{{$product['product_price']}}</del> 

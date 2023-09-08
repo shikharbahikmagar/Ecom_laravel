@@ -19,6 +19,7 @@ use App\Country;
 use App\Order;
 use App\OrdersProduct;
 use App\Sms;
+use App\ShippingCharge;
 use Session;
 use Auth;
 use DB;
@@ -116,9 +117,25 @@ class ProductsController extends Controller
         {
             $url = Route::getFacadeRoot()->current()->uri();
             $categoriesCount = Category::where(['url'=>$url, 'status'=>1])->count();
-            if($categoriesCount>0)
+            //search produt
+            if(isset($_REQUEST['search']) && !empty($_REQUEST['search']))
             {
-                 
+                $search_product = $_REQUEST['search'];
+                $categoryDetails['breadcrumbs'] = $search_product;
+                $categoryDetails['categoryDetails']['category_name'] = $search_product;
+                $categoryDetails['categoryDetails']['description'] = "Searching Results For".$search_product;
+                $categoryProducts = Product::with('brand')->where(function($query)use($search_product){
+                    $query->where('product_name', 'like', '%'.$search_product.'%')
+                    ->orWhere('product_code', 'like', '%'.$search_product.'%')
+                    ->orWhere('product_color', 'like', '%'.$search_product.'%');
+                })->where('status', 1);
+                $categoryProducts = $categoryProducts->get();
+                $page_name = "Search Product";
+                return view('front.products.listings')->with(compact('page_name', 'categoryDetails', 'categoryProducts'));
+
+            }
+            else if($categoriesCount>0)
+            {
                 $categoryDetails = Category::categoryDetails($url);
                 $categoryProducts = Product::with('brand')->whereIn('category_id', $categoryDetails['catIds'])
                 ->where('status', 1);
@@ -325,6 +342,7 @@ class ProductsController extends Controller
             $couponCount = Coupon::where('coupon_code', $data['code'])->count();
             if($couponCount == 0)
             {
+                Session::forget('couponAmount');
                 $totalCartItems = totalCartItems();
                 $userCartItems = Cart::userCartItems();
                 return response()->json([
@@ -352,10 +370,20 @@ class ProductsController extends Controller
                  $current_date = new Carbon;
                 //  echo "<pre>"; print_r($current_date); die;
                  if($expiry_date < $current_date){
-
                      $message = 'This coupon is expired!';
 
                     }
+
+                    if($couponDetails->coupon_type == "Single Time")
+                    {
+                        $couponCount = Order::where(['coupon_code'=> $data['code'], 'user_id'=>Auth::user()->id])->count();
+                        if($couponCount >= 1)
+                        {
+ 
+                            $message = "This coupon is already used!";
+                        }
+                    }
+
         
                  //get all the categories belongs to coupon
                  $cartArr = explode(',', $couponDetails->categories);
@@ -416,6 +444,7 @@ class ProductsController extends Controller
                         $couponAmount = $total_amount * ($couponDetails->amount/100);
                     }
                     $grand_total = $total_amount - $couponAmount;
+                    
                     // echo $couponAmount; die;
                     Session::put('couponAmount', $couponAmount);
                     Session::put('cuponCode', $data['code']);
@@ -436,6 +465,30 @@ class ProductsController extends Controller
     //checkout 
     public function checkout(Request $request)
     {
+        $userCartItems = Cart::userCartItems();
+        
+        if(count($userCartItems)==0)
+        {
+            $message = "Shopping Cart is empty! Please add products to checkout.";
+            Session::put('error_message', $message);
+            return redirect('/cart');
+        }
+
+        $deliveryAddresses = DeliveryAddress::deliveryAddress();
+        // dd($deliveryAddresses);
+        foreach($deliveryAddresses as $key=>$value)
+        {
+            $shippingCharge = ShippingCharge::getShippingCharge($value['country']); 
+            $deliveryAddresses[$key]['shipping_charges'] = $shippingCharge;
+        }
+        // dd($deliveryAddresses);
+        $total_price = 0;
+        foreach($userCartItems as $item)
+        {
+            $attr_price = Product::getAttrDiscountedPrice($item['product_id'], $item['size']);
+            $total_price = $total_price + $attr_price['final_price'] * $item['quantity'];
+        }
+
         if($request->isMethod('post'))
         {
             $data = $request->all();
@@ -456,12 +509,16 @@ class ProductsController extends Controller
                 $payment_method = "cod";
             }else
             {
-                echo "comming soon"; die;
-                $payment_method = "prepaid";
+               $payment_method = "khalti";
             }
             //get address using address id
             $deliveryAddress = DeliveryAddress::where('id', $data['address_id'])->first();
+            //get shipping charges
+            $shipping_charges = ShippingCharge::getShippingCharge($deliveryAddress['country']); 
             // dd($deliveryAddress);  
+            //calculate grand total
+            $grand_total = $total_price + $shipping_charges - Session::get('couponAmount');
+            Session::put('grand_total', $grand_total);
             DB::beginTransaction();
             //insert data into orders table
             $order = new Order;
@@ -474,8 +531,8 @@ class ProductsController extends Controller
             $order->pincode = $deliveryAddress['pincode'];
             $order->mobile = $deliveryAddress['mobile'];
             $order->email = Auth::user()->email;
-            $order->shipping_charges = 0;
-            $order->coupon_code = Session::get('coupon_code');
+            $order->shipping_charges = $shipping_charges;
+            $order->coupon_code = Session::get('cuponCode');
             $order->coupon_amount = Session::get('couponAmount');
             $order->order_status = "New";
             $order->payment_method = $payment_method;
@@ -534,7 +591,11 @@ class ProductsController extends Controller
 
                 return redirect('/thanks');
             }
-            else
+            else if($data['payment_gateway'] == "khalti")
+            {
+                Session::put('grand_total', $grand_total);
+                return redirect('/khalti');
+            }else
             {
                 echo "comming soon..."; die;
             }
@@ -542,16 +603,8 @@ class ProductsController extends Controller
             echo "order placed"; die;
 
         }
-        $userCartItems = Cart::userCartItems();
-        if(count($userCartItems)==0)
-        {
-            $message = "Shopping Cart is empty! Please add products to checkout.";
-            Session::put('error_message', $message);
-            return redirect('/cart');
-        }
 
-        $deliveryAddresses = DeliveryAddress::deliveryAddress();
-        return view('front.products.checkout')->with(compact('userCartItems', 'deliveryAddresses'));
+        return view('front.products.checkout')->with(compact('userCartItems', 'deliveryAddresses', 'total_price'));
     }
     //thanks page
     public function thanks()

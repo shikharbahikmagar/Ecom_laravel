@@ -91,6 +91,12 @@ Route::prefix('/admin')->namespace('Admin')->group(function(){
         Route::get('/view-order-invoice/{id}', 'OrdersController@viewOrderInvoice');
         //print pdf file
         Route::get('/print-pdf-invoice/{id}', 'OrdersController@printPdfInvoice');
+        
+        //shipping charges
+        Route::get('/shipping-charges', 'ShippingController@shippingCharge');
+        //edit shipping charge
+        Route::match(['get', 'post'], '/edit_shipping_charges/{id}', 'ShippingController@editShippingCharge');
+        Route::post('/update-shipping-status', 'ShippingController@updateShippingStatus'); 
     });
 
 });
@@ -132,7 +138,10 @@ Route::namespace('Front')->group(function(){
     Route::match(['get', 'post'], '/confirm/{code}', 'UsersController@confirmAccount');
     //user forgot password
     Route::match(['get', 'post'], '/forgot-password', 'UsersController@forgotPassword');
+    //search products
+    Route::get('/search-products', 'ProductsController@listing');
     //middleware auth
+
     Route::group(['middleware'=>['auth']], function(){
         
         //user account 
@@ -155,6 +164,8 @@ Route::namespace('Front')->group(function(){
         Route::get('/delete-delivery-address/{id?}', 'ProductsController@deleteDeliveryAddress');
         //thanks page
         Route::get('/thanks', 'ProductsController@thanks');
+        //khalti page
+        Route::get('/khalti', 'KhaltiController@khalti');
         
     });
 

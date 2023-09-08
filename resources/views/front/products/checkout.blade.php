@@ -46,7 +46,9 @@
             <tr> 
                 <td>
                     <div class="control-group" style="float:left; margin-top: -2px; margin-right: 5px;">
-                        <input type="radio" id="address{{ $address['id'] }}" name="address_id" value="{{ $address['id'] }}"> 
+                        <input type="radio" id="address{{ $address['id'] }}" name="address_id" value="{{ $address['id'] }}"
+                        shipping_charges = "{{ $address['shipping_charges'] }}" total_price="{{ $total_price }}"
+                        coupon_amount = "{{ Session::get('couponAmount') }}"> 
                     </div>
                     <div class="control-group">
                     <label class="control-label">{{ $address['name'] }}, {{ $address['address'] }},
@@ -74,7 +76,7 @@
                 <?php $total_price = 0; ?>
                 <?php $total_discount = 0; ?>
                 @foreach($userCartItems as $item)
-                <?php $attr_price = Product::getAttrDiscountedPrice($item['product_id'], $item['size']) ?>
+                <?php $attr_price = Product::getAttrDiscountedPrice($item['product_id'], $item['size']); ?>
                 <?php $price = Cart::getProductAttrPrice($item['product_id'], $item['size']); ?>
                 <tr>
                     <td> <img width="60" src="{{ asset('images/product_images/small/'.$item['product']['main_image']) }}" alt="" /></td>
@@ -103,9 +105,15 @@
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="5" style="text-align:right"><strong>GRAND TOTAL (Rs. {{$total_price}} - <span>Rs.  {{Session::get('couponAmount');}}</span> )
+                    <td colspan="5" style="text-align:right">Shipping Charges: </td>
+                    <td class="shipping_charges">
+                        Rs. 0
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="5" style="text-align:right"><strong>GRAND TOTAL (Rs. {{$total_price}} + <span class="shipping_charges">Rs.  0</span> - <span>Rs.  {{Session::get('couponAmount');}}</span> )
                             =</strong></td>
-                    <?php $grand_price = $total_price - Session::get('couponAmount') ?>
+                   
                     <td class="label label-important" style="display:block"> <strong class="grand_total"> Rs. {{ $total_price - Session::get('couponAmount') }}</strong>
                     </td>
                 </tr>
@@ -121,7 +129,7 @@
                             <div class="controls">
                                 <span>
                                     <input type="radio" name="payment_gateway" id="cod" value="cod"><Strong>COD</Strong>
-                                    <input type="radio" name="payment_gateway" id="esewa" value="esewa"><Strong>esewa</Strong>
+                                    <input type="radio" name="payment_gateway" id="khalti" value="khalti"><Strong>Khalti</Strong>
                                 </span>
                             </div>
                         </div>

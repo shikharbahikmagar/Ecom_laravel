@@ -24,7 +24,7 @@ use App\Section;
 		          <span class="icon-bar"></span>
 		          <span class="icon-bar"></span>
 		        </a>
-		        <a class="brand" href="{{ url('/') }}">Shikhar</a>
+		        <a class="brand" href="{{ url('/') }}">Mero Kapada</a>
 		        <div class="nav-collapse">
 		          <ul class="nav">
 		            <li class="active"><a href="{{ url('/') }}">Home</a></li>
@@ -48,8 +48,9 @@ use App\Section;
 					@endforeach
 		            <li><a href="#">About</a></li>
 		          </ul>
-		          <form class="navbar-search pull-left" action="#">
-		            <input type="text" class="search-query span2" placeholder="Search"/>
+		          <form class="navbar-search pull-left" action="{{ url('/search-products') }}" method="get">
+		            <input type="text" class="search-query span2" placeholder="Search" name = "search"/>
+					<button type="submit">Go</button>
 		          </form>
 		          <ul class="nav pull-right">
 		            <li><a href="{{ url('/orders') }}">Orders</a></li>

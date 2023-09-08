@@ -430,6 +430,7 @@ $(document).ready(function(){
                 }
                if(resp.grand_total>=0)
                {
+
                 $(".grand_total").text("Rs. " + resp.grand_total);
                }  
             }, error:function()
@@ -447,5 +448,56 @@ $(document).ready(function(){
             return false;
         }
     })
+    //calculate shipping charges and update grand total
+    $("input[name=address_id]").bind('change', function(){
+        var shipping_charges = $(this).attr("shipping_charges");
+        var total_price = $(this).attr("total_price");
+        var couponAmount = $(this).attr("coupon_amount");
+        if(couponAmount == "")
+        {
+            var couponAmount = 0;
+        }
+        $(".shipping_charges").html("Rs. "+shipping_charges);
+        var grand_total = parseInt(total_price) + parseInt(shipping_charges) - parseInt(couponAmount);
+        $(".grand_total").html("Rs. "+grand_total);
+    });
 
+    //khalti
+    var product_code = document.getElementById("product_code").value;
+    var product_name = document.getElementById("product_name").value;
+    var product_id = document.getElementById("product_id").value;
+    var config = {
+    // replace the publicKey with yours
+    "publicKey": "test_public_key_f8613819832a479c847ecdfb68e41aa4",
+    "productIdentity": product_code,
+    "productName": product_name,
+    "productUrl": '/product/'+product_id,
+    "paymentPreference": [
+    "KHALTI",
+    "EBANKING",
+    "MOBILE_BANKING",
+    "CONNECT_IPS",
+    "SCT",
+    ],
+    "eventHandler": {
+    onSuccess (payload) {
+        // hit merchant api for initiating verfication
+        console.log(payload);
+    },
+    onError (error) {
+        console.log(error);
+    },
+    onClose () {
+        console.log('widget is closing');
+    }
+    }
+    };
+    var grand_total = document.getElementById("grand_total").value;
+    var checkout = new KhaltiCheckout(config);
+    var btn = document.getElementById("payment-button");
+    btn.onclick = function () {
+    var grand_total = document.getElementById("grand_total").value;
+    // minimum transaction amount must be 10, i.e 1000 in paisa.
+    checkout.show({amount: grand_total*100 });
+    }
 });

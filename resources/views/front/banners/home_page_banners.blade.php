@@ -10,7 +10,7 @@ $bannerCount = Banner::where('status', 1)->count();
 			@foreach($getBanners as $key=>$banner)
 			<div class="item @if($key==0) active @endif">
 				<div class="container">
-					<a href="register.html"><img src="{{ asset('images/front_images/carousel/'.$banner['image']) }}" alt=""/></a>
+					<a href="{{ url('/') }}"><img src="{{ asset('images/front_images/carousel/'.$banner['image']) }}" alt=""/></a>
 					<div class="carousel-caption">
 					</div>
 				</div>

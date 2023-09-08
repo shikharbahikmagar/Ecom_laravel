@@ -47,44 +47,44 @@ class UsersController extends Controller
                 $user->status = 1; 
                 $user->save();
 
-                //send confirmation email
-                $email = $data['email'];
-                $messageData = [
-                    'name' => $data['name'],
-                    'email'=>$data['email'],
-                    'code'=>base64_encode($data['email'])
-                ];
-                Mail::send('emails.confirmation', $messageData, function($message) use($email){
-                    $message->to($email)->subject('Confirm your E-commerce Account');
-                });
+                // //send confirmation email
+                // $email = $data['email'];
+                // $messageData = [
+                //     'name' => $data['name'],
+                //     'email'=>$data['email'],
+                //     'code'=>base64_encode($data['email'])
+                // ];
+                // Mail::send('emails.confirmation', $messageData, function($message) use($email){
+                //     $message->to($email)->subject('Confirm your E-commerce Account');
+                // });
 
                 //return redirect back
-                $message = "Please confirm your email to activate your account!";
+                $message = "Successfully created account";
                 Session::put('success_message', $message);
                 return redirect()->back();
 
-                // if(Auth::attempt(['email'=>$data['email'], 'password'=>$data['password']]))
-                // {
-                //     // echo "<pre>"; print_r(Auth::user()); die;
-                //     if(!empty(Session::get('session_id')))
-                //     {
-                //         $user_id = Auth::user()->id;
-                //         $session_id = Session::get('session_id');
-                //         Cart::where('session_id', $session_id)->update(['user_id'=>$user_id]);
-                //     }
-                //     //send Register sms
-                //     // $message = "Dear Customer, you have successfully registered with E-com website. Login
-                //     //             to your account to access orders and available offers.";
-                //     // $mobile = $data['mobile'];
-                //     // Sms::sendSms($message, $mobile);
-                //     //send email 
-                //     $email = $data['email'];
-                //     $messageData = ['name'=>$data['name'], 'mobile'=>$data['mobile'], 'email'=>$data['email']];
-                //     Mail::send('emails.register', $messageData, function($message) use($email){
-                //         $message->to($email)->subject('Welcome to E-commerce Website');
-                //     });
-                //     return redirect('/printed_hoodie');
-                // }
+                if(Auth::attempt(['email'=>$data['email'], 'password'=>$data['password']]))
+                {
+                    // echo "<pre>"; print_r(Auth::user()); die;
+                    if(!empty(Session::get('session_id')))
+                    {
+                        $user_id = Auth::user()->id;
+                        $session_id = Session::get('session_id');
+                        Cart::where('session_id', $session_id)->update(['user_id'=>$user_id]);
+                    }
+                    //send Register sms
+                    // $message = "Dear Customer, you have successfully registered with E-com website. Login
+                    //             to your account to access orders and available offers.";
+                    // $mobile = $data['mobile'];
+                    // Sms::sendSms($message, $mobile);
+                    //send email 
+                    $email = $data['email'];
+                    $messageData = ['name'=>$data['name'], 'mobile'=>$data['mobile'], 'email'=>$data['email']];
+                    Mail::send('emails.register', $messageData, function($message) use($email){
+                        $message->to($email)->subject('Welcome to E-commerce Website');
+                    });
+                    return redirect('/printed_hoodie');
+                }
             }
 
         }
@@ -128,7 +128,7 @@ class UsersController extends Controller
             }
         }   
     }
-    //check if emai is already exist or not
+    //check if email is already exist or not
     public function checkEmail(Request $request)
     {
         if($request->ajax())

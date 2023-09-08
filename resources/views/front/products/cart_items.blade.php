@@ -50,7 +50,7 @@
             <tr>
                 <td colspan="5" style="text-align:right"><strong>GRAND TOTAL (Rs. {{$total_price}} - <span class="couponAmount">Rs. 0</span> )
                         =</strong></td>
-                <td class="label label-important" style="display:block"> <strong  class="grand_total"> Rs. {{ $grand_total = $total_price - Session::get('couponAmount') }} </strong>
+                <td class="label label-important" style="display:block"> <strong  class="grand_total"> Rs. {{ $grand_total = $total_price }} </strong>
                 <?php Session::put('grand_total', $grand_total); ?>
                 </td>
             </tr>
