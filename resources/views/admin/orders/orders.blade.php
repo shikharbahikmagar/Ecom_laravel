@@ -79,9 +79,9 @@
                     <td>
                       <a href="{{ url('/admin/orders/'.$order['id']) }}" title="View Order Details"><i class="fas fa-file"></i></a>&nbsp;&nbsp;
                       @if($order['order_status'] == "Shipped" || $order['order_status'] == "Delivered")
-                      <a href="{{ url('/admin/view-order-invoice/'.$order['id']) }}" title="View Order Invoice"><i class="fas fa-print"></i></a>
+                      <a href="{{ url('/admin/view-order-invoice/'.$order['id']) }}" title="View Order Invoice"><i class="fas fa-file-pdf"></i></a>
                       &nbsp;&nbsp;
-                      <a href="{{ url('/admin/print-pdf-invoice/'.$order['id']) }}" title="Print Pdf Invoice"><i class="fas fa-file-pdf"></i></a>
+                      <a href="{{ url('/admin/print-pdf-invoice/'.$order['id']) }}" title="Print Pdf Invoice"><i class="fas fa-print"></i></a>
                       @endif
                     </td>   
                 </tr>

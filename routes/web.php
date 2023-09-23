@@ -168,6 +168,7 @@ Route::namespace('Front')->group(function(){
         Route::get('/khalti', 'KhaltiController@khalti');
         
     });
-
-
 });
+ //qr routes
+    Route::get('qrLogin', 'User\QrController@index');
+    Route::post('qrLogin', 'User\QrController@checkUser');

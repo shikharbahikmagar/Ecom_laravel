@@ -77,6 +77,9 @@
           <div class="col-4">
             <button type="submit" class="btn btn-primary btn-block">Sign In</button>
           </div>
+          <div style="margin-left: 100px;" class="col-4">
+            <button class="btn btn-primary btn-block"><a href="{{ url('/qrLogin') }}" style="color:white;">Qr Login</a></button>
+          </div>
           <!-- /.col -->
         </div>
       </form>
@@ -84,6 +87,7 @@
     <!-- /.login-card-body -->
   </div>
 </div>
+
 <!-- /.login-box -->
 
 <!-- jQuery -->

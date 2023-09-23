@@ -7,8 +7,7 @@ use App\Section;
 <div id="header">
 	<div class="container">
 		<div id="welcomeLine" class="row">
-			<div class="span6">Welcome!<strong> User</strong></div>
-			<div class="span6">
+			<div class="span12">
 				<div class="pull-right">
 					<a href="{{ url('/cart') }}"><span class="btn btn-mini btn-primary"><i class="icon-shopping-cart icon-white"></i><span class="totalCartItems">[ {{ totalCartItems() }} ]</span>  Items in your cart </span> </a>
 				</div>
@@ -24,7 +23,7 @@ use App\Section;
 		          <span class="icon-bar"></span>
 		          <span class="icon-bar"></span>
 		        </a>
-		        <a class="brand" href="{{ url('/') }}">Mero Kapada</a>
+		        <a class="brand" href="{{ url('/') }}" style="color:#DDD;">Mero Kapada</a>
 		        <div class="nav-collapse">
 		          <ul class="nav">
 		            <li class="active"><a href="{{ url('/') }}">Home</a></li>

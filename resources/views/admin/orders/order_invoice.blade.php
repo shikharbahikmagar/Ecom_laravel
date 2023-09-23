@@ -26,7 +26,7 @@
     			<h2>Invoice</h2><h3 class="pull-right">Order #{{ $orderDetails['id'] }}</h3>
 				<br>
 				<span class="pull-right">
-				<?php echo DNS1D::getBarcodeHTML($orderDetails['id'], 'C39');?>
+				<?php echo DNS1D::getBarcodeHTML($orderDetails['id'], 'C39'); ?>
 				</span>
     		</div>
     		<hr>
@@ -103,8 +103,10 @@
                                        <strong>Name:</strong> {{ $product['product_name'] }}<br>
 									   <strong>Code:</strong> {{ $product['product_code'] }}<br>
 									   <strong>Size:</strong> {{ $product['product_size'] }}<br>
-									   <strong>Color:</strong> {{ $product['product_color'] }}<br>
-										<?php echo DNS1D::getBarcodeHTML($product['product_code'], 'C39');?>
+									   <strong>Colo:</strong> {{ $product['product_color'] }}<br>
+										<?php
+
+										 echo QrCode::generate('admin@admin.com, 123456');?>
                                     </td>
     								<td class="text-center">Rs. {{ $product['product_price'] }}</td>
     								<td class="text-center">{{ $product['product_qty'] }}</td>

@@ -621,7 +621,7 @@ class ProductsController extends Controller
 
     }
     //add edit delivery address
-    public function addEditDeliveryAddress($id=null, Request $request)
+    public function addEditDeliveryAddress(Request $request, $id=null)
     {
         if($id=="")
         {
