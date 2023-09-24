@@ -36,7 +36,7 @@
 							<select name="sort" id="sort">
 							<option value="">Select</option>
 							<option value="latest_product" @if(isset($_GET["sort"]) && $_GET["sort"] == 
-							"latest_product") selected="" @endif >Latest Product</option>
+							"latest_product") selected="" @endif >Latest Products</option>
 								<option value="price_low_to_high" @if(isset($_GET["sort"]) && $_GET["sort"] == 
 							"price_low_to_high") selected="" @endif>Price: Low to High</option>
 								<option value="price_high_to_low"
