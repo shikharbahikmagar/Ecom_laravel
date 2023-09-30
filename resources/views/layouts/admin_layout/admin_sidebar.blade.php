@@ -99,7 +99,7 @@
           <!-- catalogues -->
           @if(Session::get('page')=="Sections" || Session::get('page')=="categories" || Session::get('page')=="products"
           || Session::get('page')=="brands" || Session::get('page')=="banners" || Session::get('page')=="coupons" || Session::get('page')=="orders"
-          || Session::get('page')=="shipping_charges") 
+          || Session::get('page')=="shipping_charges" || Session::get('page')=="users") 
                 <?php 
                   $active = "active";
                 ?>
@@ -236,6 +236,21 @@
                 <a href="{{ url('/admin/shipping-charges') }}" class="nav-link {{ $active }}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Shipping Charges</p>
+                </a>
+              </li>
+              @if(Session::get('page')=="users")
+                <?php 
+                  $active = "active";
+                ?>
+                @else
+                <?php 
+                  $active = "";
+                ?>
+                @endif
+              <li class="nav-item">
+                <a href="{{ url('/admin/users') }}" class="nav-link {{ $active }}">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>users</p>
                 </a>
               </li>
             </ul>

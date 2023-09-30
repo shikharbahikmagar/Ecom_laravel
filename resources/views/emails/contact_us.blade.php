@@ -6,7 +6,7 @@
 <body>
     <table>
         <tr>
-            <td>User Voice</td>
+            <td><h1>User Voice</h1></td>
         </tr>
         <tr>
             <td>
@@ -15,7 +15,7 @@
         </tr>
         <tr>
             <td>
-                Name: {{ $name }}
+               <h3> Name:</h3> {{ $name }}
             </td>
         </tr>
         <tr>
@@ -25,7 +25,7 @@
         </tr>
         <tr>
             <td>
-                From: {{ $from }}
+                <h3>From:</h3> {{ $from }}
             </td>
         </tr>
        
@@ -36,7 +36,7 @@
         </tr>
                 <tr>
             <td>
-                Subject: {{ $cutomer_subject }}
+                <h3>Subject:</h3> {{ $cutomer_subject }}
             </td>
         </tr>
        
@@ -47,7 +47,8 @@
         </tr>
         <tr>
             <td>
-               Message: {{ $mail_message }}
+              <h3> Message:</h3>
+               {{ $mail_message }}
             </td>
         </tr>
         <tr>

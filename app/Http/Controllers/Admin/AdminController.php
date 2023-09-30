@@ -9,6 +9,9 @@ use Auth;
 use Session;
 use App\Admin;
 use Image;
+use App\Product;
+use App\User;
+use App\Order;
 
 
 class AdminController extends Controller
@@ -68,7 +71,13 @@ class AdminController extends Controller
     public function dashboard()
     {
         Session::put('page', 'dashboard');
-        return view('admin.admin_dashboard');
+        $totalProducts = Product::where('status', 1)->get()->count();
+        $totalUsers = User::where('status', 1)->get()->count();
+        $totalOrders = Order::get()->count();
+        $newOrders = Order::where('order_status', 'New')->get()->count();
+        // dd($totalProducts);
+
+        return view('admin.admin_dashboard')->with(compact('totalProducts', 'totalUsers', 'totalOrders', 'newOrders'));
     }
 
     //check current password
@@ -174,5 +183,14 @@ class AdminController extends Controller
         }
         $adminDetails = Admin::where('email', Auth::guard('admin')->user()->email)->first();
         return view('admin.update_admin_details')->with(compact('adminDetails'));
+    }
+
+    //view users
+    public function users()
+    {
+        Session::put('page', 'users');
+        $users = User::where('status', 1)->get()->toArray();
+        //dd($users);
+        return view('admin.users.users')->with(compact('users'));
     }
 }

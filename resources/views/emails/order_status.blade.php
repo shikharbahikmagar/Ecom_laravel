@@ -89,7 +89,7 @@
             </table>
         </td></tr>
         <tr><td>&nbsp;</td></tr>
-        <tr><td>For any enquiries, you can contact us at <a href="mailto:shikharbhk69@gmail.com">info@ecom.com.np</a></td></tr>
+        <tr><td>For any enquiries, you can contact us at <a href="mailto:merokapada.np@gmail.com">merokapada.com.np</a></td></tr>
         <tr><td>&nbsp;</td></tr>
         <tr><td>Regards, <br>Team Code Solta</td></tr>
         <tr><td>&nbsp;</td></tr>

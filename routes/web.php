@@ -101,6 +101,9 @@ Route::prefix('/admin')->namespace('Admin')->group(function(){
         //ratings
         Route::get('/ratings','RatingsController@ratings');
         Route::post('/update-rating-status', 'RatingsController@updateRatingStatus');
+
+        //view users
+        Route::get('/users', 'AdminController@users');
         
     });
 
