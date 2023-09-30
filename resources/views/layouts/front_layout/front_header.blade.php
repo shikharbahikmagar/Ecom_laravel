@@ -45,7 +45,7 @@ use App\Section;
 		            </li>
 					@endif
 					@endforeach
-		            <li><a href="#">About</a></li>
+		            <li><a href="{{ url('/about-us') }}">About</a></li>
 		          </ul>
 		          <form class="navbar-search pull-left" action="{{ url('/search-products') }}" method="get">
 		            <input type="text" class="search-query span2" placeholder="Search" name = "search"/>

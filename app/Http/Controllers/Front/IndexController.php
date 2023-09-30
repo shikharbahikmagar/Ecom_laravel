@@ -21,5 +21,10 @@ class IndexController extends Controller
         return view('front.index')->with(compact('page_name', 'featuredItems',
          'featuredItemCount', 'featuredItemChunk', 'latestProducts'));
     }
+
+    public function aboutUs()
+    {
+        return view('front.about_us.about');
+    }
 }
 

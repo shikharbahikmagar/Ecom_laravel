@@ -146,6 +146,10 @@ Route::namespace('Front')->group(function(){
     //search products
     Route::get('/search-products', 'ProductsController@listing');
     //middleware auth
+    //about us
+    Route::get('/about-us', 'IndexController@aboutUs');
+     //send mail
+        Route::post('/send-mail', 'ContactController@sendMail');
 
     Route::group(['middleware'=>['auth']], function(){
         
@@ -172,6 +176,7 @@ Route::namespace('Front')->group(function(){
         //khalti page
         Route::get('/khalti', 'KhaltiController@khalti');
 
+       
        
         
     });
