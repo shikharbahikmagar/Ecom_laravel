@@ -581,4 +581,26 @@ $(document).ready(function()
                  }
              });
          });
+
+         //update rating status
+    $(document).on("click", ".updateRatingStatus", function () {
+        var status = $(this).children("i").attr("status");
+        var rating_id = $(this).attr("rating_id");
+        $.ajax({
+            type: 'post',
+            url: '/admin/update-rating-status',
+            data: { status: status, rating_id: rating_id },
+            success: function (resp) {
+                if (resp['status'] == 0) {
+                    $('#rating-' + rating_id).html("  <i class='fas fa-toggle-off' aria-hidden='true' status='In-Active'></i>");
+                } else if (resp['status'] == 1) {
+                    $('#rating-' + rating_id).html("  <i class='fas fa-toggle-on' aria-hidden='true' status='Active'></i>");
+                }
+            }, error: function () {
+                alert("error");
+            }
+
+        });
+
+    });
 });

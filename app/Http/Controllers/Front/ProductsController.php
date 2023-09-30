@@ -23,6 +23,7 @@ use App\ShippingCharge;
 use Session;
 use Auth;
 use DB;
+use App\Rating;
 
 
 class ProductsController extends Controller
@@ -175,7 +176,28 @@ class ProductsController extends Controller
         ->get()->toArray();
         // dd($relatedProducts);
         // dd($productDetails);
-        return view('front.products.details')->with(compact('productDetails', 'total_stock', 'relatedProducts'));
+        //get all ratings of the product
+        $ratings = Rating::with('user')->where(['status'=> 1, 'product_id'=> $id])->orderBy('id', 'Desc')->get()->toArray();
+        //dd($ratings);
+        //get average rating
+        $ratingSum = Rating::where('status', 1)->where('product_id', $id)->sum('rating');
+        
+        $ratingCount = Rating::where('status', 1)->where('product_id', $id)->count();
+        if($ratingCount>0)
+        {
+            $avgRating = round($ratingSum/$ratingCount, 2);
+             $avgStarRating = round($ratingSum/$ratingCount);
+        }
+        else
+        {
+             $avgRating = 0;
+             $avgStarRating = 0;
+
+        }
+
+        //dd($ratingSum);
+
+        return view('front.products.details')->with(compact('productDetails', 'total_stock', 'relatedProducts', 'ratings', 'avgRating', 'avgStarRating'));
     }
 
     //returning price

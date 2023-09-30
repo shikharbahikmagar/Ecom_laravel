@@ -1,6 +1,49 @@
-<?php use App\Product; ?>
+ <?php use App\Product; ?>
 @extends('layouts.front_layout.front_layout')
 @section('content')
+<style>
+		*{
+		margin: 0;
+		padding: 0;
+	}
+	.rate {
+		float: left;
+		height: 46px;
+		padding: 0 10px;
+	}
+	.rate:not(:checked) > input {
+		position:absolute;
+		top:-9999px;
+	}
+	.rate:not(:checked) > label {
+		float:right;
+		width:1em;
+		overflow:hidden;
+		white-space:nowrap;
+		cursor:pointer;
+		font-size:30px;
+		color:#ccc;
+	}
+	.rate:not(:checked) > label:before {
+		content: '★ ';
+	}
+	.rate > input:checked ~ label {
+		color: #ffc700;    
+	}
+	.rate:not(:checked) > label:hover,
+	.rate:not(:checked) > label:hover ~ label {
+		color: #deb217;  
+	}
+	.rate > input:checked + label:hover,
+	.rate > input:checked + label:hover ~ label,
+	.rate > input:checked ~ label:hover,
+	.rate > input:checked ~ label:hover ~ label,
+	.rate > label:hover ~ input:checked ~ label {
+		color: #c59b08;
+	}
+
+	/* Modified from: https://github.com/mukulkant/Star-rating-using-pure-css */
+</style>
 	<div class="span9">
 		<ul class="breadcrumb">
 			<li><a href="{{ url('/') }}">Home</a> <span class="divider">/</span></li>
@@ -61,6 +104,14 @@
 					@endif
 				<h3>{{ $productDetails['product_name'] }}</h3>
 				<small>{{ $productDetails['brand']['name'] }}</small>
+				<div>
+					<?php
+					$star = 1;
+					while($star<=$avgStarRating){?>
+					<span>&#9733;</span>
+					<?php $star++; }?> ({{ $avgRating }})
+					
+				</div>
 				<hr class="soft"/>
 				<small>{{ $total_stock }} items in stock</small>
 				<form class="form-horizontal qtyFrm" action="{{ url('add-to-cart') }}" method="post">@csrf
@@ -99,6 +150,7 @@
 				<ul id="productDetail" class="nav nav-tabs">
 					<li class="active"><a href="#home" data-toggle="tab">Product Details</a></li>
 					<li><a href="#profile" data-toggle="tab">Related Products</a></li>
+					<li><a href="#review" data-toggle="tab">Product Reviews</a></li>
 				</ul>
 				<div id="myTabContent" class="tab-content">
 					<div class="tab-pane fade active in" id="home">
@@ -209,6 +261,60 @@
 							</div>
 						</div>
 						<br class="clr">
+					</div>
+					<div class="tab-pane fade" id="review">
+						<div class="row">
+							<div class="span4">
+ 								<h3>Write a Review</h3>
+								<form action="{{ url('/add-rating') }}" method="POST" name="ratingForm" id="ratingForm"
+								class="form-horizontal">@csrf 
+ 									<input type="hidden" name="product_id" value = "{{ $productDetails['id'] }}">
+									<div class="rate">
+ 										<input type="radio" id="star5" name="rating" value="5" />
+										<label for="star5" title="text">5 stars</label>
+										<input type="radio" id="star4" name="rating" value="4" />
+										<label for="star4" title="text">4 stars</label>
+										<input type="radio" id="star3" name="rating" value="3" />
+										<label for="star3" title="text">3 stars</label>
+										<input type="radio" id="star2" name="rating" value="2" />
+										<label for="star2" title="text">2 stars</label>
+										<input type="radio" id="star1" name="rating" value="1" />
+										<label for="star1" title="text">1 star</label>
+									</div>
+									<div class="control-group"></div>
+ 									<div calss="form-group">
+ 										<label for=""><h4>Your Review *</h4></label>
+										<textarea name="review" id="review" style="width: 300px; height: 50px;" required></textarea>
+									</div>
+									<div>&nbsp;</div>
+									<div class="form-group">
+ 										<button type="submit" class="btn btn-primary">Submit</button>
+									</div>
+									
+								</form>
+							</div>
+							<div class = "span4">
+ 								<h3>User Reviews</h3>
+								@if(count($ratings)>0)
+									 @foreach($ratings as $rating)
+									 	<div>
+											<?php
+												$count = 1;
+												while($count<=$rating['rating'])
+												{ ?>
+												<span>&#9733;</span>	
+												<?php $count++; } ?>
+												<p>{{ $rating['review'] }}</p>
+												<p>By {{ $rating['user']['name'] }}</p>
+												<p>{{ date("d-m-y", strtotime($rating['created_at'])); }}</p>
+										</div>
+										<hr>
+									 @endforeach
+								@else
+									<p><b>Reviews are not available for this Product!</b></p>
+								@endif
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>

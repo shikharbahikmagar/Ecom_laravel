@@ -97,6 +97,11 @@ Route::prefix('/admin')->namespace('Admin')->group(function(){
         //edit shipping charge
         Route::match(['get', 'post'], '/edit_shipping_charges/{id}', 'ShippingController@editShippingCharge');
         Route::post('/update-shipping-status', 'ShippingController@updateShippingStatus'); 
+
+        //ratings
+        Route::get('/ratings','RatingsController@ratings');
+        Route::post('/update-rating-status', 'RatingsController@updateRatingStatus');
+        
     });
 
 });
@@ -166,9 +171,13 @@ Route::namespace('Front')->group(function(){
         Route::get('/thanks', 'ProductsController@thanks');
         //khalti page
         Route::get('/khalti', 'KhaltiController@khalti');
+
+       
         
     });
 });
  //qr routes
     Route::get('qrLogin', 'User\QrController@index');
     Route::post('qrLogin', 'User\QrController@checkUser');
+     //ratings
+        Route::match(['GET', 'POST'], '/add-rating', 'Front\RatingsController@addRating');
