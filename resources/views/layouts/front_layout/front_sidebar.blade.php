@@ -60,10 +60,5 @@ $sections = Section::sections();
 				</div>
 				@endif
 				<br/>
-				<div class="thumbnail">
-					<img src="{{ asset('images/front_images/payment_methods.png') }}" title="Payment Methods" alt="Payments Methods">
-					<div class="caption">
-						<h5>Payment Methods</h5>
-					</div>
-				</div>
+			
 			</div>

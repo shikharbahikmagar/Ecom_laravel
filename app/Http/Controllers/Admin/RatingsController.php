@@ -11,6 +11,7 @@ class RatingsController extends Controller
 {
     public function ratings()
     {
+    
         Session::put('page', 'ratings');
         $ratings = Rating::with(['user', 'products'])->get()->toArray();
         //echo "<pre>"; print_r($ratings); die;

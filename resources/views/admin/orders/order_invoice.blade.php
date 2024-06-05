@@ -106,7 +106,7 @@
 									   <strong>Colo:</strong> {{ $product['product_color'] }}<br>
 										<?php
 
-										 echo QrCode::generate('admin@admin.com, 123456');?>
+										 echo QrCode::generate('127.0.0.1:8000/product/'.$product['product_id']);?>
                                     </td>
     								<td class="text-center">Rs. {{ $product['product_price'] }}</td>
     								<td class="text-center">{{ $product['product_qty'] }}</td>

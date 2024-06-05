@@ -121,7 +121,7 @@ Route::namespace('Front')->group(function(){
         // echo "<pre>"; print_r($url); 
     }
     //product details
-    Route::get('/product/{id}', 'ProductsController@details');
+    
     //getting price according to size
     Route::post('/getting-product-price', 'ProductsController@getProductPrice');
     //add to cart

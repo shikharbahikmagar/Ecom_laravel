@@ -117,6 +117,7 @@ class ProductsController extends Controller
         else
         {
             $url = Route::getFacadeRoot()->current()->uri();
+            dd($url);
             $categoriesCount = Category::where(['url'=>$url, 'status'=>1])->count();
             //search produt
             if(isset($_REQUEST['search']) && !empty($_REQUEST['search']))

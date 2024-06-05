@@ -4,7 +4,7 @@
     <a href="index3.html" class="brand-link">
       <img src="{{ asset('images/admin_images/AdminLTELogo.png') }}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
            style="opacity: .8">
-      <span class="brand-text font-weight-light">AdminLTE 3</span>
+      <span class="brand-text font-weight-light">Admin Panel</span>
     </a>
 
     <!-- Sidebar -->
@@ -251,6 +251,21 @@
                 <a href="{{ url('/admin/users') }}" class="nav-link {{ $active }}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>users</p>
+                </a>
+              </li>
+              @if(Session::get('page')=="ratings")
+                <?php 
+                  $active = "active";
+                ?>
+                @else
+                <?php 
+                  $active = "";
+                ?>
+                @endif
+              <li class="nav-item">
+                <a href="{{ url('/admin/ratings') }}" class="nav-link {{ $active }}">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Ratings</p>
                 </a>
               </li>
             </ul>
