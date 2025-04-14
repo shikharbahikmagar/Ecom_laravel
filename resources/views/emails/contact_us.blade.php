@@ -15,7 +15,7 @@
         </tr>
         <tr>
             <td>
-               <h3> Name:</h3> {{ $name }}
+               <h3>Full Name:</h3> {{ $name }}
             </td>
         </tr>
         <tr>
